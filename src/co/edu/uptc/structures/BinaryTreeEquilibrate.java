@@ -8,7 +8,6 @@ public class BinaryTreeEquilibrate<T> {
     private NodeDouble<T> root;
     private Comparator<T> comparator;
 
-
     public BinaryTreeEquilibrate(Comparator<T> comparator) {
         this.comparator = comparator;
     }
@@ -99,7 +98,6 @@ public class BinaryTreeEquilibrate<T> {
         return list;
     }
 
-
     public List<T> preOrder() {
         List<T> list = new ArrayList<T>();
         return preOrder(this.root, list);
@@ -139,17 +137,19 @@ public class BinaryTreeEquilibrate<T> {
             this.root = nodeNew;
         } else {
             if (comparator.compare(value, node.getData()) > 0) {
-                if (node.getRight()==null){
+                if (node.getRight() == null) {
                     node.setRight(nodeNew);
-                    node.setFactorEquilibrium(node.getFactorEquilibrium()+1);
-                    searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium()+1);
-                    searchFather(node).setRight(equilibrate(node));//linker
-                    System.out.printf(searchFather(node).getData()+"\n");
-                    if (this.root.getFactorEquilibrium()==2) {
-                        System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
-                        this.root=equilibrate(this.root);
+                    node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
+                    if (node.getLeft() == null) {
+                    searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium() + 1);
                     }
-                }else {
+                    // searchFather(node).setRight(equilibrate(node));//linker
+                    System.out.printf(searchFather(node).getData() + "\n");
+                    if (this.root.getFactorEquilibrium() == 2) {
+                        System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
+                        this.root = equilibrate(this.root);
+                    }
+                } else {
                     insert(node.getRight(), value);
                 }
             } else {
@@ -157,8 +157,11 @@ public class BinaryTreeEquilibrate<T> {
                     if (node.getLeft() == null) {
                         node.setLeft(nodeNew);
                         node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
-                        searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium()-1);
-                        searchFather(node).setLeft(equilibrate(node));
+                        if (node.getRight() == null) {
+
+                            searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium() - 1);
+
+                        } /* searchFather(node).setLeft(equilibrate(node)); */
                         System.out.printf("heree" + searchFather(node).getData() + "\n");
                         if (this.root.getFactorEquilibrium() == -2) {
                             System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
@@ -173,9 +176,10 @@ public class BinaryTreeEquilibrate<T> {
             }
         }
 
-       // return node;//recuperar la hoja, antes de la inserci�n.
+        // return node;//recuperar la hoja, antes de la inserci�n.
     }
-    public NodeDouble<T> searchFather(NodeDouble<T> nodeChild){
+
+    public NodeDouble<T> searchFather(NodeDouble<T> nodeChild) {
         return searchFather(this.root, nodeChild);
     }
 
@@ -201,18 +205,18 @@ public class BinaryTreeEquilibrate<T> {
 
     private NodeDouble<T> equilibrate(NodeDouble<T> node) {
         NodeDouble<T> rootSubTree = node;
-        if(node != null){
-            if(node.getFactorEquilibrium() == 2){
-                if(node.getRight().getFactorEquilibrium() == 1){
-                   rootSubTree=rotationSimpleDD(node, node.getRight());
-                }else{
-                    rootSubTree=rotationDoubleID(node, node.getRight());
+        if (node != null) {
+            if (node.getFactorEquilibrium() == 2) {
+                if (node.getRight().getFactorEquilibrium() == 1) {
+                    rootSubTree = rotationSimpleDD(node, node.getRight());
+                } else {
+                    rootSubTree = rotationDoubleID(node, node.getRight());
                 }
-            }else if(node.getFactorEquilibrium() == -2){
-                if(node.getLeft().getFactorEquilibrium() == -1){
-                    rootSubTree=rotationSimpleII(node, node.getLeft());
-                }else{
-                    rootSubTree=rotationDoubleDI(node, node.getLeft());
+            } else if (node.getFactorEquilibrium() == -2) {
+                if (node.getLeft().getFactorEquilibrium() == -1) {
+                    rootSubTree = rotationSimpleII(node, node.getLeft());
+                } else {
+                    rootSubTree = rotationDoubleDI(node, node.getLeft());
                 }
             }
         }
@@ -223,8 +227,8 @@ public class BinaryTreeEquilibrate<T> {
         nodeProblem.setLeft(nodeReference.getRight());
         nodeReference.setRight(nodeProblem);
         nodeProblem = nodeReference;
-        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium()+2);
-        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium()+1);
+        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium() + 2);
+        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium() + 1);
         return nodeProblem;
     }
 
@@ -232,8 +236,8 @@ public class BinaryTreeEquilibrate<T> {
         nodeProblem.setRight(nodeReference.getLeft());
         nodeReference.setLeft(nodeProblem);
         nodeProblem = nodeReference;
-        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium()-2);
-        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium()-1);
+        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium() - 2);
+        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium() - 1);
         return nodeProblem;
     }
 
@@ -244,25 +248,24 @@ public class BinaryTreeEquilibrate<T> {
         nodeReference.setLeft(nodeDescendant.getRight());
         nodeDescendant.setRight(nodeReference);
         nodeProblem = nodeDescendant;
-        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium()-2);
-        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium()+1);
+        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium() - 2);
+        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium() + 1);
         return nodeProblem;
     }
 
     public NodeDouble<T> rotationDoubleDI(NodeDouble<T> nodeProblem, NodeDouble<T> nodeReference) {
         NodeDouble<T> nodeDescendant = nodeReference.getRight();
-        System.out.printf(nodeProblem.getData() +"____\n" +nodeProblem.getFactorEquilibrium());
-        System.out.printf("\n"+nodeReference.getData() +"sdfdsf\n");
+        System.out.printf(nodeProblem.getData() + "____\n" + nodeProblem.getFactorEquilibrium());
+        System.out.printf("\n" + nodeReference.getData() + "sdfdsf\n");
         nodeProblem.setLeft(nodeDescendant.getRight());
 
         nodeDescendant.setRight(nodeProblem);
         nodeReference.setRight(nodeDescendant.getLeft());
         nodeDescendant.setLeft(nodeReference);
         nodeProblem = nodeDescendant;
-        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium()+2);
-        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium()-1);
+        nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium() + 2);
+        nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium() - 1);
         return nodeProblem;
     }
-
 
 }
