@@ -1,6 +1,5 @@
 package co.edu.uptc.structures;
 
-import javax.xml.soap.Node;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -198,7 +197,7 @@ public class BinaryTreeEquilibrate<T> {
             }
         }
 
-       // return node;//recuperar la hoja, antes de la inserción.
+       // return node;//recuperar la hoja, antes de la inserciï¿½n.
     }
     public NodeDouble<T> searchFather(NodeDouble<T> nodeChild){
         return searchFather(this.root, nodeChild);

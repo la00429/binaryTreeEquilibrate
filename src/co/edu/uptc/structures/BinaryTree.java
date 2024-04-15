@@ -1,6 +1,5 @@
 package co.edu.uptc.structures;
 
-import javax.xml.soap.Node;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
