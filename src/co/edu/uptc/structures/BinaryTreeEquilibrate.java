@@ -17,30 +17,6 @@ public class BinaryTreeEquilibrate<T> {
         return this.root == null;
     }
 
-    /*public void insert(T value) {
-        NodeDouble<T> node = new NodeDouble<T>(value);
-        if (isEmpty()) {
-            root = node;
-        } else {
-            NodeDouble<T> aux = root;
-            NodeDouble<T> father = null;
-            while (aux != null) {
-
-                father = aux;
-                if (comparator.compare(value, aux.getData()) > 0) {
-                    aux = aux.getRight();
-                } else {
-                    aux = aux.getLeft();
-                }
-            }
-            if (comparator.compare(value, father.getData()) > 0) {
-                father.setRight(node);
-            } else {
-                father.setLeft(node);
-            }
-        }
-    }*/
-
     public T searchData(T value) {
         return findData(root, value);
     }
