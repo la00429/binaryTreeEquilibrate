@@ -140,11 +140,8 @@ public class BinaryTreeEquilibrate<T> {
                 if (node.getRight() == null) {
                     node.setRight(nodeNew);
                     node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
-                    if (node.getLeft() == null) {
-                    searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium() + 1);
-                    }
-                    // searchFather(node).setRight(equilibrate(node));//linker
-                    System.out.printf(searchFather(node).getData() + "\n");
+
+                    equilibrate(node.getRight());
                     if (this.root.getFactorEquilibrium() == 2) {
                         System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
                         this.root = equilibrate(this.root);
@@ -157,12 +154,7 @@ public class BinaryTreeEquilibrate<T> {
                     if (node.getLeft() == null) {
                         node.setLeft(nodeNew);
                         node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
-                        if (node.getRight() == null) {
-
-                            searchFather(node).setFactorEquilibrium(searchFather(node).getFactorEquilibrium() - 1);
-
-                        } /* searchFather(node).setLeft(equilibrate(node)); */
-                        System.out.printf("heree" + searchFather(node).getData() + "\n");
+                        equilibrate(node.getLeft());
                         if (this.root.getFactorEquilibrium() == -2) {
                             System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
                             this.root = equilibrate(this.root);
@@ -175,8 +167,6 @@ public class BinaryTreeEquilibrate<T> {
                 }
             }
         }
-
-        // return node;//recuperar la hoja, antes de la inserci�n.
     }
 
     public NodeDouble<T> searchFather(NodeDouble<T> nodeChild) {
@@ -185,42 +175,60 @@ public class BinaryTreeEquilibrate<T> {
 
     public NodeDouble<T> searchFather(NodeDouble<T> node, NodeDouble<T> nodeChild) {
         NodeDouble<T> nodeFather = new NodeDouble<T>(null);
-        if (node != null) {
-            if (node.getLeft() != null && node.getLeft().getData().equals(nodeChild.getData())) {
+        if (node != null && nodeChild != null) {
+            if (comparator.compare(nodeChild.getData(), node.getData()) == 0) {
                 nodeFather = node;
-                nodeFather.setLeft(null);
-            } else if (node.getRight() != null && node.getRight().getData().equals(nodeChild.getData())) {
-                nodeFather = node;
-                nodeFather.setRight(null);
             } else {
-                if (comparator.compare(nodeChild.getData(), node.getData()) > 0) {
-                    nodeFather = searchFather(node.getRight(), nodeChild);
+                if (node.getLeft() != null && node.getLeft().getData().equals(nodeChild.getData())) {
+                    nodeFather = node;
                 } else {
-                    nodeFather = searchFather(node.getLeft(), nodeChild);
+                    if (node.getRight() != null && node.getRight().getData().equals(nodeChild.getData())) {
+                        nodeFather = node;
+                    } else {
+                        if (comparator.compare(nodeChild.getData(), node.getData()) > 0) {
+                            nodeFather = searchFather(node.getRight(), nodeChild);
+                        } else {
+                            nodeFather = searchFather(node.getLeft(), nodeChild);
+
+                        }
+                    }
                 }
             }
         }
         return nodeFather;
     }
 
-    private NodeDouble<T> equilibrate(NodeDouble<T> node) {
-        NodeDouble<T> rootSubTree = node;
-        if (node != null) {
-            if (node.getFactorEquilibrium() == 2) {
-                if (node.getRight().getFactorEquilibrium() == 1) {
-                    rootSubTree = rotationSimpleDD(node, node.getRight());
+    private NodeDouble<T> equilibrate(NodeDouble<T> nodeNew) {
+        NodeDouble<T> rootSubTree = nodeNew;
+        NodeDouble<T> nodeFather = new NodeDouble<T>(null);
+        while (rootSubTree.getFactorEquilibrium() != 2 && rootSubTree.getFactorEquilibrium() != -2&& rootSubTree!= this.root) {
+            rootSubTree = (searchFather(rootSubTree) == null) ? this.root : searchFather(rootSubTree);
+            System.out.println("w");
+        }
+        if (rootSubTree != null) {
+            if (rootSubTree.getFactorEquilibrium() == 2) {
+                if (rootSubTree.getRight().getFactorEquilibrium() == 1) {
+                    nodeFather = searchFather(rootSubTree);
+                    rootSubTree = rotationSimpleDD(rootSubTree, rootSubTree.getRight());
+                    nodeFather.setRight(rootSubTree);
                 } else {
-                    rootSubTree = rotationDoubleID(node, node.getRight());
+                    nodeFather = searchFather(rootSubTree);
+                    rootSubTree = rotationDoubleID(rootSubTree, rootSubTree.getRight());
+                    nodeFather.setLeft(rootSubTree);
                 }
-            } else if (node.getFactorEquilibrium() == -2) {
-                if (node.getLeft().getFactorEquilibrium() == -1) {
-                    rootSubTree = rotationSimpleII(node, node.getLeft());
+            } else if (rootSubTree.getFactorEquilibrium() == -2) {
+                if (rootSubTree.getLeft().getFactorEquilibrium() == -1) {
+                    nodeFather = searchFather(rootSubTree);
+                    rootSubTree = rotationSimpleII(rootSubTree, rootSubTree.getLeft());
+                    nodeFather.setLeft(rootSubTree);
                 } else {
-                    rootSubTree = rotationDoubleDI(node, node.getLeft());
+                    nodeFather = searchFather(rootSubTree);
+                    rootSubTree = rotationDoubleDI(rootSubTree, rootSubTree.getLeft());
+                    nodeFather.setLeft(rootSubTree);
                 }
             }
         }
-        return rootSubTree;
+        return nodeFather;
     }
 
     public NodeDouble<T> rotationSimpleII(NodeDouble<T> nodeProblem, NodeDouble<T> nodeReference) {
