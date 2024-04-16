@@ -36,6 +36,7 @@ public class BinaryTreeEquilibrate<T> {
                 dataFound = findData(current.getLeft(), value);
             }
         }
+        System.out.println();
         return dataFound;
     }
 
@@ -139,7 +140,7 @@ public class BinaryTreeEquilibrate<T> {
             if (comparator.compare(value, node.getData()) > 0) {
                 if (node.getRight() == null) {
                     node.setRight(nodeNew);
-                    node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
+                    // node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
 
                     equilibrate(node.getRight());
                     if (this.root.getFactorEquilibrium() == 2) {
@@ -153,7 +154,7 @@ public class BinaryTreeEquilibrate<T> {
                 if (comparator.compare(value, node.getData()) < 0) {
                     if (node.getLeft() == null) {
                         node.setLeft(nodeNew);
-                        node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
+                        // node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
                         equilibrate(node.getLeft());
                         if (this.root.getFactorEquilibrium() == -2) {
                             System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
@@ -202,8 +203,7 @@ public class BinaryTreeEquilibrate<T> {
         NodeDouble<T> rootSubTree = nodeNew;
         NodeDouble<T> nodeFather = new NodeDouble<T>(null);
         while (rootSubTree.getFactorEquilibrium() != 2 && rootSubTree.getFactorEquilibrium() != -2&& rootSubTree!= this.root) {
-            rootSubTree = (searchFather(rootSubTree) == null) ? this.root : searchFather(rootSubTree);
-            System.out.println("w");
+            rootSubTree = (searchFather(rootSubTree) == null) ? null : searchFather(rootSubTree);
         }
         if (rootSubTree != null) {
             if (rootSubTree.getFactorEquilibrium() == 2) {
@@ -237,6 +237,8 @@ public class BinaryTreeEquilibrate<T> {
         nodeProblem = nodeReference;
         nodeProblem.setFactorEquilibrium(nodeProblem.getFactorEquilibrium() + 2);
         nodeReference.setFactorEquilibrium(nodeReference.getFactorEquilibrium() + 1);
+        System.out.println(22555);
+
         return nodeProblem;
     }
 
