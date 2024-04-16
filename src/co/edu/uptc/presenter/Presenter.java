@@ -10,7 +10,7 @@ public class Presenter {
 
 
         public static void main(String[] args) {
-            BinaryTree<Integer> binaryTree = new BinaryTree<Integer>(Comparator.naturalOrder());
+            BinaryTreeEquilibrate<Integer> binaryTree = new BinaryTreeEquilibrate <Integer>(Comparator.naturalOrder());
 
             binaryTree.insert(29);
             binaryTree.insert(19);

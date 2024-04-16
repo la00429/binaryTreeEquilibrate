@@ -140,7 +140,7 @@ public class BinaryTreeEquilibrate<T> {
             if (comparator.compare(value, node.getData()) > 0) {
                 if (node.getRight() == null) {
                     node.setRight(nodeNew);
-                    // node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
+                    node.setFactorEquilibrium(node.getFactorEquilibrium() + 1);
 
                     equilibrate(node.getRight());
                     if (this.root.getFactorEquilibrium() == 2) {
@@ -154,7 +154,7 @@ public class BinaryTreeEquilibrate<T> {
                 if (comparator.compare(value, node.getData()) < 0) {
                     if (node.getLeft() == null) {
                         node.setLeft(nodeNew);
-                        // node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
+                        node.setFactorEquilibrium(node.getFactorEquilibrium() - 1);
                         equilibrate(node.getLeft());
                         if (this.root.getFactorEquilibrium() == -2) {
                             System.out.printf("heree23" + searchFather(this.root).getData() + "\n");
